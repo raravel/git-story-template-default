@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<link href="./assets/css/tailwind.css" rel="stylesheet">
+		<link href="./assets/css/all.min.css"  rel="stylesheet">
+		<style>
+			h1 {
+				font-size: 5rem;
+			}
+			h2 {
+				font-size: 4rem;
+			}
+			h3 {
+				font-size: 3.5rem;
+			}
+			h4 {
+				font-size: 3rem;
+			}
+			h5 {
+				font-size: 2.5rem;
+			}
+			h6 {
+				font-size: 2rem;
+			}
+		</style>
+	</head>
+	<body class="bg-white">
+		<!-- S:Header -->
+		<header class="flex bg-white border-b border-gray-200 fixed top-0 inset-x-0 h-16 items-center" style="z-index:1000">
+			<div class="w-full max-w-screen-xl relative mx-auto px-6">
+				<div class="flex items-center -mx-6">
+					<div class="lg:w-1/4 xl:w-1/5 pl-20 pr-6">
+						<a href="/" class="relative">
+							<span class="inline-block align-middle">
+								<span class="text-red-400" style="margin-right:1em;">
+									<i class="fa fa-blog fa-2x"></i>
+								</span>
+								<span class="relative">
+									GIT STORY
+								</span>
+							</span>
+						</a>
+					</div>
+					<div class="flex flex-grow lg:w-2/4 xl:w-3/5">
+						<a class="block flex items-center hover:text-red-400 mr-5 cursor-pointer text-red-400">HOME</a>
+					</div>
+					<div class="lg:w-1/4 xl:w-1/5 pl-6 pr-20">
+						<button type="button" id="sidebar-open" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700">
+							<i class="fa fa-bars"></i>
+						</button>
+						<button type="button" id="sidebar-close" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700 hidden">
+							<i class="fa fa-times"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- E:Header -->
+		<!-- S:Main -->
+		<main class="w-full max-w-screen-xl mx-auto px-20 pt-20">
+			<div class="lg:flex -mx-6 px-32">
+				<!-- S:Sidebar -->
+				<div id="sidebar" class="hidden fixed inset-0 pt-12 lg:pt-0 h-full z-90 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-auto lg:border-b-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5">
+					<div id="navWrapper" class="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:top-16 bg-white lg:bg-transparent">
+						<!-- S:Category  Nav -->
+						<nav id="category-nav" class="px-6 pt-6 overflow-y-auto text-base lg:text-sm lg:py-6 lg:pl-6 lg:pr-8 sticky?lg:h-(screen-16)">
+							<div class="relative -mx-2 w-40 mb-2">
+								<h4 class="flex text-red-400 text-xl uppercase w-full">
+									<span class="inline-block">
+										<i class="fa fa-folder-open"></i>
+										Categories
+									</span>
+								</h4>
+							</div>
+							<!-- S:One Category -->
+							<div class="relative -mx-2 w-24 mb-2">
+								<a href="#">
+									<h5 class="mb-3 lg:mb-2 text-gray-700 uppercase tracking-wide text-base hover:text-red-400">
+										BLOG
+									</h5>
+								</a>
+								<ul>
+									<li class="mb-3 lg:mb-1">
+										<a class="px-2 pl-6 -mx-2 py-1 transition-fast relative block hover:translate-r-2px hover:text-red-500 text-gray-600 font-medium cursor-pointer">
+											<span class="rounded absolute inset-0 bg-teal-200 opacity-0"></span>
+											<span class="relative">Subcategory</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<!-- E:One Category -->
+							<!-- S:One Category -->
+							<div class="relative -mx-2 w-24 mb-2">
+								<a href="#">
+									<h5 class="mb-3 lg:mb-2 text-gray-700 uppercase tracking-wide text-base hover:text-red-400">
+										Other
+									</h5>
+								</a>
+							</div>
+							<!-- E:One Category -->
+						</nav>
+						<!-- E:Category  Nav -->
+						<!-- S:Social Nav -->
+						<nav id="social-nav" class="px-6 pt-6 overflow-y-auto text-base lg:text-sm lg:py-6 lg:pl-6 lg:pr-8 sticky?lg:h-(screen-16) border-t border-gray-300">
+							<div class="relative -mx-2 w-40 mb-2">
+								<h4 class="flex text-red-400 text-xl uppercase w-full">
+									<span class="inline-block">
+										<i class="fa fa-share"></i>
+										Social
+									</span>
+								</h4>
+							</div>
+							<!-- S:One Social -->
+							<div class="relative -mx-2 w-40 mb-2">
+								<a href="https://github.com/mobbing/git-story-template-default" target="_blank" class="bg-gray-900 hover:bg-gray-800 w-full text-white font-bold py-2 px-4 rounded inline-flex items-center cursor-pointer">
+									<i class="fab fa-github"></i>&nbsp;&nbsp;
+									<span class="w-full">GITHUB</span>
+								</a>
+							</div>
+							<!-- E:One Social -->
+						</nav>
+						<!-- E:Social Nav -->
+					</div>
+				</div>
+				<!-- E:Sidebar -->
+				<!-- S:Content -->
+				<div id="content-wrapper" class="min-h-screen w-full lg:static lg:max-h-full lg:w-3/4 xl:w-4/5 pl-6 border-l border-gray-300">
+					<div id="content">
+						<div id="app" class="flex">
+							<div class="pt-6 pb-6 w-full">
+								<!-- S:Title -->
+								<div id="content-header" class="border-b border-gray-300">
+									<h1 class="text-gray-900 uppercase text-3xl">
+										Posting Title
+									</h1>
+									<h4 class="mb-3 text-base">
+										<span class="text-gray-500 pr-3 border-r border-gray-300">Mobbing</span>
+										<span class="text-red-300 ml-2">2019. 09. 01 5:41:30</span>
+									</h4>
+								</div>
+								<!-- E:Title -->
+
+								<!-- S:Content -->
+								<div id="content" class="bg-white mt-6">
+									<h1>가나다라마바사</h1><br>
+									<h2>가나다라마바사</h2><br>
+									<h3>가나다라마바사</h3><br>
+									<h4>가나다라마바사</h4><br>
+									<h5>가나다라마바사</h5><br>
+									<h6>가나다라마바사</h6><br>
+								</div>
+								<!-- E:Content -->
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- E:Content -->
+			</div>
+		</main>
+		<!-- E:Main -->
+		<!-- S:Footer -->
+		<footer class="h-12 mt-12 flex items-center border-t border-gray-300">
+			<div class="w-full max-w-screen-xl relative mx-auto px-6">
+				<div class="flex items-center -mx-6">
+					<div class="w-1/5"></div>
+					<div class="w-3/5 text-center">
+						Designed by <a href="https://github.com/mobbing/git-story-template-default" class="text-red-400 hover:text-red-600" target="_blank">GITSTORY</a>
+					</div>
+					<div class="w-1/5"></div>
+				</div>
+			</div>
+		</footer>
+		<!-- E:Footer -->
+		<script src="./assets/js/script.js" type="text/javascript"></script>
+	</body>
+</html>
