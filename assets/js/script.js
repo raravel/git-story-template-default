@@ -71,7 +71,6 @@ const searchObject = (obj, key, value) => {
 	for ( let i=0;i<len;i++ ) {
 		let k = keys[i];
 		if ( k === key ) {
-			console.log(k, obj[k], value);
 			if ( obj[k] == value ) {
 				return obj;
 			}
@@ -115,6 +114,20 @@ const getSubposts = (obj) => {
 	return rtn;
 };
 
+const getContent = (url, callback = () => {}) => {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', url);
+	xhr.responseType = 'text';
+	xhr.onreadystatechange = (e) => {
+		if ( xhr.readyState === 4 ) {
+			if ( xhr.status === 200 ) {
+				callback(xhr.responseText);
+			}
+		}
+	};
+	xhr.send(null);
+};
+
 const createPostList = (posts) => {
 	if ( ["/", "/index", "/index.html" ].includes(location.pathname) === false ) {
 		// 포스팅을 보여줄 상황이 아닐 경우
@@ -124,15 +137,14 @@ const createPostList = (posts) => {
 	let tp = posts;
 	if ( location.search !== "" ) {
 		let v = getParameterByName('v');
-		tp = searchObject(posts, 'href', v);
-	}
+		tp = searchObject(posts, 'href', v); }
 	let p = getSubposts(tp);
 
 	if ( Array.isArray(p) ) {
 		let postsDiv = document.createElement('div');
 		p.forEach(post => {
 			let a = document.createElement('a');
-			a.href = `/posting.html?v=${post.href}.html`;
+			a.href = `/posting.html?v=${post.href}index.html`;
 			a.className = "md:flex bg-white p-6 cursor-pointer hover:bg-gray-200";
 
 			let div = document.createElement('div');
@@ -147,17 +159,28 @@ const createPostList = (posts) => {
 			h2.innerText = post.title;
 
 			let create = (() => {
-				let s = '2019-09-01-08-50-04'.split('-');
-				if ( s.length === 6 ) {
-					return `${s[0]}. ${s[1]}. ${s[2]} ${s[3]}:${s[4]}:${s[5]}`;
+				let m = post.href.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}/g);
+				if ( m ) {
+					let s = m[0].split('-');
+					if ( s.length === 6 ) {
+						return `${s[0]}. ${s[1]}. ${s[2]} ${s[3]}:${s[4]}:${s[5]}`;
+					}
 				}
 			})();
-			let cspan = document.createElement('span');
+			let cspan = document.createElement('div');
 			cspan.className = "text-red-300";
 			cspan.innerText = create;
 
-			let pspan = document.createElement('span');
+			let pspan = document.createElement('div');
 			pspan.className = "text-gray-600";
+
+			getContent(post.href+'index.html', (res) => {
+				let tmpDiv = document.createElement('div');
+				tmpDiv.innerHTML = res;
+
+				let content = tmpDiv.querySelector('#content');
+				pspan.innerText = content.innerText.replace(/\r\n/g, '').replace(/\n/g, '');
+			});
 
 			div.appendChild(h2);
 			div.appendChild(cspan);
@@ -193,5 +216,32 @@ getPosts((posts) => {
 	console.log(postsList);
 	if ( postsList ) {
 		document.querySelector('#app>div').appendChild(postsList);
+	}
+
+	if ( ["/posting", "/posting.html"].includes(location.pathname) ) {
+		let url = getParameterByName('v');
+		let path = url.replace('index.html', '');
+
+		let p = searchObject(posts, 'href', path);
+		if ( p ) {
+			let header = document.querySelector('#content-header');
+			header.querySelector('h1').innerText = p.title;
+
+			let create = (() => {
+				let m = path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}/g);
+				if ( m ) {
+					let s = m[0].split('-');
+					if ( s.length === 6 ) {
+						return `${s[0]}. ${s[1]}. ${s[2]} ${s[3]}:${s[4]}:${s[5]}`;
+					}
+				}
+			})();
+			header.querySelector('h4>span:last-child').innerText = create;
+
+
+			getContent(url, (res) => {
+				document.querySelector('#real-content').innerHTML = res;
+			});
+		}
 	}
 });
