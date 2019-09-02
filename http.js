@@ -3,7 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 http.createServer((req, res) => {
-	let f = path.join('./', req.url == "/" ? "index.html" : req.url);
+	let url = req.url;
+	let query = "";
+	if ( url.includes('?') ) {
+		url = url.replace(/\?.*/g, '');
+		query = req.url.replace(/.*\?/g, '');
+	}
+	let f = path.join('./', url == "/" ? "index.html" : url);
 	res.writeHead(200);
 
 	console.log(f);
@@ -11,7 +17,8 @@ http.createServer((req, res) => {
 		if ( fs.existsSync(f) ) {
 			res.write(fs.readFileSync(f));
 		}
-	} catch {
+	} catch (err) {
+		console.log(err);
 	}
 	res.end();
 }).listen(10000);
