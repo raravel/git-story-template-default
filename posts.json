@@ -4,11 +4,11 @@
 		"href": "/posts/blog/",
 		"posts": {
 			"Subcagegory": {
-				"href": "/posts/blog/subcagegory",
+				"href": "/posts/blog/subcategory",
 				"posts": [
 					{
 						"cover": "https://avatars3.githubusercontent.com/u/28672888?s=460&v=4",
-						"href": "/posts/blog/2019-09-01-08-50-04/",
+						"href": "/posts/blog/subcategory/2019-09-01-08-50-04/",
 						"title": "테스트 포스팅!"
 					}
 				]
