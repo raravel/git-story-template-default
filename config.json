@@ -1,0 +1,21 @@
+{
+	"head": [
+		{
+			"tag": "meta",
+			"attr": {
+				"charset": "utf-8"
+			}
+		},
+		{
+			"tag": "link",
+			"attr": {
+				"href": "/assets/css/style.css",
+				"rel": "stylesheet"
+			}
+		}
+	],
+	"body": {
+		"start": [],
+		"end": []
+	}
+}
