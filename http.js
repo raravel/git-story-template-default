@@ -10,6 +10,21 @@ http.createServer((req, res) => {
 		query = req.url.replace(/.*\?/g, '');
 	}
 	let f = path.join('./', url == "/" ? "index.html" : url);
+	if ( f.match(/index\.html$/) ) {
+		// do not anything.
+	} else {
+		if ( f.match(/\/$/) ) {
+			if ( path.extname(f) === '' ) {
+				f += "index.html";
+			}
+		} else {
+			if ( path.extname(f) === '' ) {
+				f += ".html";
+			}
+		}
+	}
+
+
 	res.writeHead(200);
 
 	console.log(f);
