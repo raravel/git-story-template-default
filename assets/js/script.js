@@ -238,10 +238,16 @@ getPosts((posts) => {
 			})();
 			header.querySelector('h4>span:last-child').innerText = create;
 
-
+			let realContent = document.querySelector('#real-content');
+			realContent.onload = () => {
+				realContent.height = realContent.contentDocument.scrollingElement.scrollHeight;
+			};
+			realContent.src = url;
+			/*
 			getContent(url, (res) => {
 				document.querySelector('#real-content').innerHTML = res;
 			});
+			*/
 		}
 	}
 });
