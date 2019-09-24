@@ -220,7 +220,7 @@ getPosts((posts) => {
 
 	if ( ["/posting", "/posting.html"].includes(location.pathname) ) {
 		let url = getParameterByName('v');
-		let path = url.replace('index.html', '');
+		let path = url.replace(/index$|index\.html$/g, '');
 
 		let p = searchObject(posts, 'href', path);
 		if ( p ) {
@@ -242,6 +242,16 @@ getPosts((posts) => {
 			realContent.onload = () => {
 				realContent.height = realContent.contentDocument.scrollingElement.scrollHeight;
 			};
+
+			if ( url.match(/index$|index\.html$/) ) {
+				// do not anyting.
+			} else {
+				if ( url[url.length-1] === '/' ) {
+					url += "index";
+				} else {
+					url += "/index";
+				}
+			}
 			realContent.src = url;
 			/*
 			getContent(url, (res) => {
