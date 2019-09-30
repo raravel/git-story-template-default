@@ -4,7 +4,7 @@
 		"href": "/posts/blog/",
 		"posts": {
 			"Subcagegory": {
-				"href": "/posts/blog/subcategory",
+				"href": "/posts/blog/subcategory/",
 				"posts": [
 					{
 						"cover": "https://avatars3.githubusercontent.com/u/28672888?s=460&v=4",
@@ -17,7 +17,7 @@
 	},
 	"BLOGGING": {
 		"single": true,
-		"href": "/posts/blogging",
+		"href": "/posts/blogging/",
 		"posts": [
 		]
 	}

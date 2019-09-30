@@ -82,7 +82,8 @@
 				<!-- S:Content -->
 				<div id="content-wrapper" class="min-h-screen w-full lg:static lg:max-h-full lg:w-3/4 xl:w-4/5 pl-6 border-l border-gray-300">
 					<div id="content">
-						<div id="app" class="flex">
+						<!-- S:List App -->
+						<div id="list-app" class="flex">
 							<div class="pt-6 pb-6 w-full">
 								<div id="content-header" class="border-b border-gray-300">
 									<h1 class="text-gray-900 uppercase text-3xl mb-3">
@@ -91,6 +92,30 @@
 								</div>
 							</div>
 						</div>
+						<!-- E:List App -->
+						<!-- S:Post App -->
+						<div id="post-app" class="flex" style="display:none">
+							<div class="pt-6 pb-6 w-full">
+								<!-- S:Title -->
+								<div id="content-header" class="border-b border-gray-300">
+									<h1 class="text-gray-900 uppercase text-3xl">
+										Posting Title
+									</h1>
+									<h4 class="mb-3 text-base">
+										<span class="text-gray-500 pr-3 border-r border-gray-300">Mobbing</span>
+										<span class="text-red-300 ml-2">2019. 09. 01 5:41:30</span>
+									</h4>
+								</div>
+								<!-- E:Title -->
+
+								<!-- S:Content -->
+								<!-- <div id="real-content" class="bg-white mt-6"></div> -->
+								<iframe id="real-content" class="w-full bg-white mt-6" height="100%" scrolling="no"></iframe>
+								<!-- E:Content -->
+
+							</div>
+						</div>
+						<!-- E:Post App -->
 					</div>
 				</div>
 				<!-- E:Content -->

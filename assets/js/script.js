@@ -1,6 +1,22 @@
 window.$sbarOpen = document.querySelector('#sidebar-open');
 window.$sbarClose = document.querySelector('#sidebar-close');
 window.$sbar = document.querySelector('#sidebar');
+window.$listApp = document.querySelector('#list-app');
+window.$postApp = document.querySelector('#post-app');
+
+String.prototype.lastChar = function() {
+	return this[this.length-1];
+};
+
+const switchDisplay = (mode = "list") => {
+	if ( mode === "list" ) {
+		$listApp.style.display = "flex";
+		$postApp.style.display = "none";
+	} else if ( mode === "post" ) {
+		$listApp.style.display = "none";
+		$postApp.style.display = "flex";
+	}
+};
 
 $sbarOpen.addEventListener('click', (e) => {
 	$sbar.classList.remove('hidden');
@@ -27,7 +43,8 @@ const createCategory = (item) => {
 		div.className = "relative -mx-2 w-24 mb-2";
 
 		let a = document.createElement('a');
-		a.href = `/?v=${c.href}`;
+		let pslash = c.href.lastChar() === "/" ? "" : "/";
+		a.href = `/?c=${c.href}${pslash}`;
 
 		let h5 = document.createElement('h5');
 		h5.className = "mb-3 lg:mb-2 text-gray-700 upupercase tracking-wide text-base hover:text-red-400";
@@ -48,7 +65,8 @@ const createCategory = (item) => {
 
 				let a = document.createElement('a');
 				a.className = "px-2 pl-6 -mx-2 py-1 transition-fast relative block hover:translate-r-2px hover:text-red-500 text-gray-600 font-medium cursor-pointer";
-				a.href = `/?v=${sc.href}`;
+				let spslash = sc.href.lastChar() === "/" ? "" : "/";
+				a.href = `/?c=${sc.href}${spslash}`;
 				a.innerHTML = 
 				`<span class="rounded absolute inset-0 bg-teal-200 opacity-0"></span>
 				<span class="relative">${sname}</span>`;
@@ -67,6 +85,8 @@ const createCategory = (item) => {
 const searchObject = (obj, key, value) => {
 	let keys = Object.keys(obj);
 	let len = keys.length;
+
+	if ( !value ) return obj;
 
 	for ( let i=0;i<len;i++ ) {
 		let k = keys[i];
@@ -129,22 +149,21 @@ const getContent = (url, callback = () => {}) => {
 };
 
 const createPostList = (posts) => {
-	if ( ["/", "/index", "/index.html" ].includes(location.pathname) === false ) {
-		// 포스팅을 보여줄 상황이 아닐 경우
-		return;
-	}
-
 	let tp = posts;
 	if ( location.search !== "" ) {
-		let v = getParameterByName('v');
-		tp = searchObject(posts, 'href', v); }
+		// category 는 c 를 사용합니다.
+		let v = getParameterByName('c'); 
+		tp = searchObject(posts, 'href', v); 
+	}
 	let p = getSubposts(tp);
 
 	if ( Array.isArray(p) ) {
 		let postsDiv = document.createElement('div');
 		p.forEach(post => {
 			let a = document.createElement('a');
-			a.href = `/posting.html?v=${post.href}index.html`;
+			//a.href = `/posting.html?v=${post.href}index.html`;
+			let pslash = post.href.lastChar() === "/" ? "" : "/";
+			a.href=`/?v=${post.href}${pslash}`;
 			a.className = "md:flex bg-white p-6 cursor-pointer hover:bg-gray-200";
 
 			let div = document.createElement('div');
@@ -178,7 +197,7 @@ const createPostList = (posts) => {
 				let tmpDiv = document.createElement('div');
 				tmpDiv.innerHTML = res;
 
-				let content = tmpDiv.querySelector('#content');
+				let content = tmpDiv.querySelector('main');
 				pspan.innerText = content.innerText.replace(/\r\n/g, '').replace(/\n/g, '');
 			});
 
@@ -212,19 +231,15 @@ getPosts((posts) => {
 	let category = createCategory(posts);	
 	document.querySelector('#category-nav').appendChild(category);
 
-	let postsList = createPostList(posts);
-	console.log(postsList);
-	if ( postsList ) {
-		document.querySelector('#app>div').appendChild(postsList);
-	}
+	let url = getParameterByName('v');
+	if ( url ) {
+		switchDisplay('post');
 
-	if ( ["/posting", "/posting.html"].includes(location.pathname) ) {
-		let url = getParameterByName('v');
 		let path = url.replace(/index$|index\.html$/g, '');
 
 		let p = searchObject(posts, 'href', path);
 		if ( p ) {
-			let header = document.querySelector('#content-header');
+			let header = document.querySelector('#post-app #content-header');
 			header.querySelector('h1').innerText = p.title;
 
 			let create = (() => {
@@ -258,6 +273,13 @@ getPosts((posts) => {
 				document.querySelector('#real-content').innerHTML = res;
 			});
 			*/
+		}
+	} else {
+		switchDisplay('list');
+		let postsList = createPostList(posts);
+		console.log(postsList);
+		if ( postsList ) {
+			document.querySelector('#list-app>div').appendChild(postsList);
 		}
 	}
 });
