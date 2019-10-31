@@ -4,7 +4,7 @@ console.log(isInIframe);
 if ( isInIframe() ) {
 	// do not anyting.
 } else { 
-	// redirect posting.html
+	// redirect view post html
 	let p = location.pathname.replace(/index.*$/g, '');
-	location.assign(`/posting?v=${p}`);
+	location.assign(`/?v=${p}`);
 }
