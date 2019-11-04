@@ -3,7 +3,8 @@
 		"single": false,
 		"href": "/posts/blog/",
 		"posts": {
-			"Subcagegory": {
+			"Subcategory": {
+				"single": true,
 				"href": "/posts/blog/subcategory/",
 				"posts": [
 					{
