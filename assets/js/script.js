@@ -241,58 +241,77 @@ const getPosts = (callback = () => {}) => {
 	xhr.send(null);
 };
 
-getPosts((posts) => {
-	let category = createCategory(posts);	
-	document.querySelector('#category-nav').appendChild(category);
+const getConfig = (callback = () => {}) => {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', '/config.json');
+	xhr.responseType = "json";
+	xhr.onreadystatechange = (e) => {
+		if ( xhr.readyState === 4 ) {
+			if ( xhr.status === 200 ) {
+				callback(xhr.response);
+			}
+		}
+	};
+	xhr.send(null);
+};
 
-	let url = getParameterByName('v');
-	if ( url ) {
-		switchDisplay('post');
+getConfig((config) => {
+	window.config = config;
 
-		let path = url.replace(/index$|index\.html$/g, '');
+	getPosts((posts) => {
+		let category = createCategory(posts);	
+		document.querySelector('#category-nav').appendChild(category);
 
-		let p = searchObject(posts, 'href', path);
-		if ( p ) {
-			let header = document.querySelector('#post-app #content-header');
-			header.querySelector('h1').innerText = p.title;
+		let url = getParameterByName('v');
+		if ( url ) {
+			switchDisplay('post');
 
-			let create = (() => {
-				let m = path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}/g);
-				if ( m ) {
-					let s = m[0].split('-');
-					if ( s.length === 6 ) {
-						return `${s[0]}. ${s[1]}. ${s[2]} ${s[3]}:${s[4]}:${s[5]}`;
+			let path = url.replace(/index$|index\.html$/g, '');
+
+			let p = searchObject(posts, 'href', path);
+			if ( p ) {
+				let header = document.querySelector('#post-app #content-header');
+				header.querySelector('h1').innerText = p.title;
+
+				let create = (() => {
+					let m = path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}/g);
+					if ( m ) {
+						let s = m[0].split('-');
+						if ( s.length === 6 ) {
+							return `${s[0]}. ${s[1]}. ${s[2]} ${s[3]}:${s[4]}:${s[5]}`;
+						}
+					}
+				})();
+				header.querySelector('#posting-date').innerText = create;
+				header.querySelector('#posting-name').innerText = window.config.author;
+
+				let realContent = document.querySelector('#real-content');
+				realContent.onload = () => {
+					realContent.height = realContent.contentDocument.scrollingElement.scrollHeight;
+				};
+
+				if ( url.match(/index$|index\.html$/) ) {
+					// do not anyting.
+				} else {
+					if ( url[url.length-1] === '/' ) {
+						url += "index";
+					} else {
+						url += "/index";
 					}
 				}
-			})();
-			header.querySelector('h4>span:last-child').innerText = create;
-
-			let realContent = document.querySelector('#real-content');
-			realContent.onload = () => {
-				realContent.height = realContent.contentDocument.scrollingElement.scrollHeight;
-			};
-
-			if ( url.match(/index$|index\.html$/) ) {
-				// do not anyting.
-			} else {
-				if ( url[url.length-1] === '/' ) {
-					url += "index";
-				} else {
-					url += "/index";
-				}
+				realContent.src = url;
+				/*
+				getContent(url, (res) => {
+					document.querySelector('#real-content').innerHTML = res;
+				});
+				*/
 			}
-			realContent.src = url;
-			/*
-			getContent(url, (res) => {
-				document.querySelector('#real-content').innerHTML = res;
-			});
-			*/
+		} else {
+			switchDisplay('list');
+			let postsList = createPostList(posts);
+			if ( postsList ) {
+				document.querySelector('#list-app>div').appendChild(postsList);
+			}
 		}
-	} else {
-		switchDisplay('list');
-		let postsList = createPostList(posts);
-		if ( postsList ) {
-			document.querySelector('#list-app>div').appendChild(postsList);
-		}
-	}
+	});
 });
