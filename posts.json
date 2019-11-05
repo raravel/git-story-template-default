@@ -1,11 +1,23 @@
 {
 	"BLOG": {
-		"single": false,
 		"href": "/posts/blog/",
-		"posts": {
+		"sub": {
 			"Subcategory": {
-				"single": true,
 				"href": "/posts/blog/subcategory/",
+				"sub": {
+					"SSCATE": {
+						"href": "/posts/blog/subcategory/sscate/",
+						"sub": {
+						},
+						"posts": [
+							{
+								"cover": "https://avatars3.githubusercontent.com/u/28672888?s=460&v=4",
+								"href": "/posts/blog/subcategory/sscate/2019-09-01-08-50-04/",
+								"title": "테스트 포스팅333!"
+							}
+						]
+					}
+				},
 				"posts": [
 					{
 						"cover": "https://avatars3.githubusercontent.com/u/28672888?s=460&v=4",
@@ -14,11 +26,18 @@
 					}
 				]
 			}
-		}
+		},
+		"posts": [
+			{
+				"cover": "https://avatars3.githubusercontent.com/u/28672888?s=460&v=4",
+				"href": "/posts/blog/2019-11-05-15-28-21/",
+				"title": "테스트 포스팅 22!"
+			}
+		]
 	},
 	"BLOGGING": {
-		"single": true,
 		"href": "/posts/blogging/",
+		"sub": {},
 		"posts": [
 		]
 	}

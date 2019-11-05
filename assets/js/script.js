@@ -30,6 +30,38 @@ $sbarClose.addEventListener('click', (e) => {
 	$sbarOpen.classList.remove('hidden');
 });
 
+const createSubCategory = (item, level=0) => {
+	let SubCategorys= Object.keys(item);
+	if ( SubCategorys.length > 0 ) {
+		let subItem = item;
+		let ul = document.createElement('ul');
+		ul.className = `ml-${level*3}`;
+		SubCategorys.forEach(sname => {
+			let sc = subItem[sname];
+
+			let li = document.createElement('li');
+			li.className = "mb-3 lg:mb-1";
+
+			let a = document.createElement('a');
+			a.className = "px-2 pl-6 -mx-2 py-1 transition-fast relative block hover:translate-r-2px hover:text-red-500 text-gray-600 font-medium cursor-pointer";
+			let spslash = sc.href.lastChar() === "/" ? "" : "/";
+			a.href = `/?c=${sc.href}${spslash}`;
+			a.innerHTML = 
+				`<span class="rounded absolute inset-0 bg-teal-200 opacity-0"></span>
+				<span class="relative">${sname}</span>`;
+			li.appendChild(a);
+
+			let subUl = createSubCategory(sc.sub, level+1);
+			if ( subUl ) {
+				li.appendChild(subUl);
+			}
+
+			ul.appendChild(li);
+		});
+		return ul;
+	}
+};
+
 const createCategory = (item) => {
 	if ( typeof item !== "object" ) return;
 
@@ -52,29 +84,10 @@ const createCategory = (item) => {
 
 		a.appendChild(h5);
 		div.appendChild(a);
-		if ( c.single === true ) {
-		} else {
-			let subItem = c.posts;
-			let SubCategorys = Object.keys(c.posts);
-			let ul = document.createElement('ul');
-			SubCategorys.forEach(sname => {
-				let sc = subItem[sname];
 
-				let li = document.createElement('li');
-				li.className = "mb-3 lg:mb-1";
-
-				let a = document.createElement('a');
-				a.className = "px-2 pl-6 -mx-2 py-1 transition-fast relative block hover:translate-r-2px hover:text-red-500 text-gray-600 font-medium cursor-pointer";
-				let spslash = sc.href.lastChar() === "/" ? "" : "/";
-				a.href = `/?c=${sc.href}${spslash}`;
-				a.innerHTML = 
-				`<span class="rounded absolute inset-0 bg-teal-200 opacity-0"></span>
-				<span class="relative">${sname}</span>`;
-
-				li.appendChild(a);
-				ul.appendChild(li);
-			});
-			div.appendChild(ul);
+		let subUl = createSubCategory(c.sub);
+		if ( subUl ) {
+			div.appendChild(subUl);
 		}
 
 		categoryDiv.appendChild(div);
@@ -116,13 +129,10 @@ function getParameterByName(name, url) {
 
 const getSubposts = (obj) => {
 	let rtn = [];
-	if ( Array.isArray(obj.posts) ) {
-		return obj.posts;
-	}
 
 	let target = obj;
-	if ( typeof obj.posts === "object" ) {
-		target = obj.posts; 
+	if ( typeof obj.sub === "object" ) {
+		target = obj.sub; 
 	}
 
 	let keys = Object.keys(target);
@@ -131,6 +141,10 @@ const getSubposts = (obj) => {
 			rtn = rtn.concat(getSubposts(target[k]));
 		}
 	});
+
+	if ( Array.isArray(obj.posts) ) {
+		rtn = rtn.concat(obj.posts);
+	}
 	return rtn;
 };
 
@@ -277,7 +291,6 @@ getPosts((posts) => {
 	} else {
 		switchDisplay('list');
 		let postsList = createPostList(posts);
-		console.log(postsList);
 		if ( postsList ) {
 			document.querySelector('#list-app>div').appendChild(postsList);
 		}
