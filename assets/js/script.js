@@ -178,7 +178,7 @@ const createPostList = (posts) => {
 			//a.href = `/posting.html?v=${post.href}index.html`;
 			let pslash = post.href.lastChar() === "/" ? "" : "/";
 			a.href=`/?v=${post.href}${pslash}`;
-			a.className = "md:flex bg-white p-6 cursor-pointer hover:bg-gray-200";
+			a.className = "flex bg-white p-6 cursor-pointer hover:bg-gray-200";
 
 			let div = document.createElement('div');
 			div.className = "text-left";
