@@ -294,9 +294,9 @@ getConfig((config) => {
 					// do not anyting.
 				} else {
 					if ( url[url.length-1] === '/' ) {
-						url += "index";
+						//url += "index";
 					} else {
-						url += "/index";
+						url += "/";
 					}
 				}
 				realContent.src = url;
