@@ -8,8 +8,8 @@
 		"end": []
 	},
 	"author": "Mobbing",
-	"theme-files" [
+	"theme-files": [
 		"/index.html",
-		"/assets/.*"
+		"/assets/"
 	]
 }
