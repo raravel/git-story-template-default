@@ -7,5 +7,9 @@
 		"start": [],
 		"end": []
 	},
-	"author": ""
+	"author": "Mobbing",
+	"theme-files" [
+		"/index.html",
+		"/assets/.*"
+	]
 }
