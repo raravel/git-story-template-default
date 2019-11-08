@@ -14,7 +14,10 @@
 		"name": "default",
 		"files": [
 			"/index.html",
-			"/assets/"
+			"/assets/css/all.min.css",
+			"/assets/css/tailwind.css",
+			"/assets/css/tailwind.css.map",
+			"/assets/webfonts/"
 		]
 	}
 }
