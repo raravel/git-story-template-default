@@ -285,11 +285,6 @@ getConfig((config) => {
 				header.querySelector('#posting-date').innerText = create;
 				header.querySelector('#posting-name').innerText = window.config.author;
 
-				let realContent = document.querySelector('#real-content');
-				realContent.onload = () => {
-					realContent.height = realContent.contentDocument.scrollingElement.scrollHeight;
-				};
-
 				if ( url.match(/index$|index\.html$/) ) {
 					// do not anyting.
 				} else {
@@ -315,3 +310,8 @@ getConfig((config) => {
 		}
 	});
 });
+
+let realContent = document.querySelector('#real-content');
+var syncIframeHeight = setInterval(() => {
+	realContent.height = realContent.contentDocument.scrollingElement.scrollHeight;
+}, 1000);
