@@ -10,6 +10,8 @@
 		]
 	},
 	"author": "Mobbing",
+	"comment": {
+	},
 	"theme": {
 		"name": "default",
 		"files": [
